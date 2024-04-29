@@ -1,33 +1,39 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+import Cabins from './pages/Cabins';
+import Bookings from './pages/Bookings';
+import Account from './pages/Account';
+import Setting from './pages/Settings';
+import Users from './pages/Users';
+import Login from './pages/Login';
+import PageNotFound from './pages/PageNotFound';
+import AppLayout from './ui/AppLayout';
+import GlobalStyles from './styles/GlobalStyles';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <GlobalStyles></GlobalStyles>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppLayout />}>
+            <Route
+              index
+              element={<Navigate replace to='/dashboard'></Navigate>}
+            />
+
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/bookings' element={<Bookings />} />
+            <Route path='/cabins' element={<Cabins />} />
+            <Route path='/settings' element={<Setting />} />
+            <Route path='/users' element={<Users />} />
+            <Route path='/account' element={<Account />} />
+          </Route>
+
+          <Route path='/login' element={<Login />} />
+          <Route path='*' element={<PageNotFound />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
