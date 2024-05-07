@@ -1,13 +1,17 @@
-import BookingRow from "./BookingRow";
-import Table from "../../ui/Table";
-import Menus from "../../ui/Menus";
-
+import BookingRow from './BookingRow';
+import Table from '../../ui/Table';
+import Menus from '../../ui/Menus';
+import useGetBookingList from './useGetBookingList';
+import Spiner from '../../ui/Spinner';
+import Empty from '../../ui/Empty';
 function BookingTable() {
-  const bookings = [];
+  const { bookings, isLoading } = useGetBookingList();
+  if (isLoading) return <Spiner />;
 
+  if (!bookings.length) return <Empty resourceName='bookings' />;
   return (
-    <Menus>
-      <Table columns="0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem">
+    <>
+      <Table columns='0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem'>
         <Table.Header>
           <div>Cabin</div>
           <div>Guest</div>
@@ -24,7 +28,7 @@ function BookingTable() {
           )}
         />
       </Table>
-    </Menus>
+    </>
   );
 }
 
