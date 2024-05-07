@@ -5,17 +5,26 @@ import Button from '../../ui/Button';
 import FileInput from '../../ui/FileInput';
 import Textarea from '../../ui/Textarea';
 import FormRow from '../../ui/FormRow';
-import { useCreateCabin } from './useCreateCabin';
+import useEditCabin from './useEditCabin';
 
-function CreateCabinForm() {
+function EditCabinForm({ data }) {
+  const defaultValues = {
+    cabinId: data.id,
+    name: data?.name,
+    description: data?.description,
+    image: data?.image,
+    maxCapacity: data?.max_capacity,
+    regularPrice: data?.regular_price,
+    discount: data?.discount,
+  };
   const { register, handleSubmit, reset, getValues, formState } = useForm({
-    defaultValues: {},
+    defaultValues: defaultValues,
   });
   const { errors } = formState;
-
-  const { createCabin, isCreatingCabin } = useCreateCabin();
+  const { editCabin, isEditingCabin } = useEditCabin();
   const onSubmit = (data) => {
     const image = typeof data.image === 'string' ? data.image : data.image[0];
+
     const refactorData = {
       name: data?.name,
       description: data?.description,
@@ -24,11 +33,8 @@ function CreateCabinForm() {
       regular_price: data?.regularPrice,
       discount: data?.discount,
     };
-    console.log(refactorData);
-
-    createCabin(refactorData);
+    editCabin({ cabinData: refactorData, id: data.cabinId });
   };
-  console.log(errors);
   return (
     <Form onSubmit={handleSubmit(onSubmit)} type='modal'>
       <FormRow label='Cabin name' error={errors?.name?.message}>
@@ -97,13 +103,7 @@ function CreateCabinForm() {
       </FormRow>
 
       <FormRow label='Cabin photo' error={errors?.image?.message}>
-        <FileInput
-          id='image'
-          accept='image/*'
-          {...register('image', {
-            required: 'This field is required',
-          })}
-        />
+        <FileInput id='image' accept='image/*' {...register('image')} />
       </FormRow>
 
       <FormRow>
@@ -111,10 +111,10 @@ function CreateCabinForm() {
         <Button variation='secondary' type='reset'>
           Cancel
         </Button>
-        <Button>Edit cabin</Button>
+        <Button disabled={isEditingCabin}>Edit cabin</Button>
       </FormRow>
     </Form>
   );
 }
 
-export default CreateCabinForm;
+export default EditCabinForm;
