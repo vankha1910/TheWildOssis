@@ -9,7 +9,6 @@ const useGetBookingDetail = () => {
     queryKey: ['booking', bookingId],
     queryFn: () => getBooking(bookingId),
   });
-  console.log(booking);
   return { booking, isLoading };
 };
 
