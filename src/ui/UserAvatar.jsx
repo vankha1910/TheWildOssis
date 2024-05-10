@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import useGetUser from '../features/authentication/useGetUser';
 const StyledUserAvatar = styled.div`
   display: flex;
   gap: 1.2rem;
@@ -20,10 +21,13 @@ const Avatar = styled.img`
   outline: 2px solid var(--color-grey-100);
 `;
 const UserAvatar = () => {
+  const { user } = useGetUser();
+  const userName = user?.user_metadata?.full_name || '';
+  const userAvatar = user?.user_metadata?.avatar || 'default-user.jpg';
   return (
     <StyledUserAvatar>
-      <Avatar src={'default-user.jpg'} alt={`Avatar of default`} />
-      <span>Jonas</span>
+      <Avatar src={userAvatar} alt={`Avatar of ${userName}`} />
+      <span>{userName}</span>
     </StyledUserAvatar>
   );
 };
