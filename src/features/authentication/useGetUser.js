@@ -7,7 +7,6 @@ const useGetUser = () => {
     queryKey: ['user'],
     queryFn: getUserApi,
   });
-  console.log(user);
   return { user, isLoading };
 };
 

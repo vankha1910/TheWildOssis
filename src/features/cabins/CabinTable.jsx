@@ -4,6 +4,7 @@ import { getCabins } from '../../services/apiCabins';
 import CabinRow from './CabinRow';
 import Spinner from '../../ui/Spinner';
 import Table from '../../ui/Table';
+import useCabin from './useCabin';
 // const Table = styled.div`
 //   border: 1px solid var(--color-grey-200);
 
@@ -29,14 +30,7 @@ import Table from '../../ui/Table';
 // `;
 
 const CabinTable = () => {
-  const {
-    isLoading,
-    data: cabins,
-    error,
-  } = useQuery({
-    queryKey: ['cabins'],
-    queryFn: getCabins,
-  });
+  const { cabins, isLoading } = useCabin();
   if (isLoading) return <Spinner />;
   return (
     <Table columns='0.6fr 1.8fr 2.2fr 1fr 1fr 1fr'>

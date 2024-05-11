@@ -25,7 +25,6 @@ export async function getUserApi() {
     console.error(error.message);
     throw new Error(error.message);
   }
-  console.log(data);
   return data?.user;
 }
 
